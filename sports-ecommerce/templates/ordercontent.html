@@ -1,0 +1,167 @@
+
+{% load get_status %}
+
+<div class="min-h-screen bg-gray-50 py-10">
+
+    <div class="max-w-5xl mx-auto px-4">
+
+        <!-- Header -->
+        <div class="mb-8">
+            <p class="text-xs font-bold tracking-[0.25em] text-gray-400 uppercase">
+                Sports Store
+            </p>
+
+            <h1 class="text-3xl md:text-4xl font-black text-gray-900 mt-1">
+                MY ORDERS
+            </h1>
+
+            <p class="text-gray-500 mt-2">
+                Track and manage your recent orders
+            </p>
+        </div>
+
+
+        {% if orders %}
+
+            <div class="space-y-5">
+
+                {% for i in orders %}
+
+                <!-- Order Card -->
+                <div class="bg-white border border-gray-200 rounded-2xl
+                            shadow-sm hover:shadow-md transition overflow-hidden">
+
+                    <!-- Top -->
+                    <div class="px-5 md:px-6 py-5 border-b bg-gray-50">
+
+                        <div class="flex flex-col sm:flex-row
+                                    sm:items-center sm:justify-between gap-4">
+
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase
+                                          tracking-wider font-semibold">
+                                    Order ID
+                                </p>
+
+                                <p class="text-lg font-black text-gray-900">
+                                    #{{ i.id }}
+                                </p>
+                            </div>
+
+                            <!-- Status -->
+                            <span class="inline-flex w-fit items-center gap-2
+                                         px-4 py-2 rounded-full
+                                         bg-green-50 text-green-700
+                                         text-sm font-bold">
+
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+
+                                {% get_status i.order_status %}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Order Details -->
+                    <div class="p-5 md:p-6">
+
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+
+                            <!-- Date -->
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase
+                                          tracking-wider font-semibold">
+                                    Ordered On
+                                </p>
+
+                                <p class="font-semibold text-gray-800 mt-1">
+                                    {{ i.created_at|date:"d M Y" }}
+                                </p>
+                            </div>
+
+
+                            <!-- Total -->
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase
+                                          tracking-wider font-semibold">
+                                    Total Amount
+                                </p>
+
+                                <p class="font-black text-xl text-gray-900 mt-1">
+                                    ₹{{ i.total_price }}
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Bottom -->
+                        <div class="flex flex-col sm:flex-row
+                                    sm:items-center sm:justify-between
+                                    gap-4 mt-6 pt-5 border-t">
+
+                            <p class="text-sm text-gray-500">
+                                Thank you for shopping with
+                                <span class="font-semibold text-gray-900">
+                                    Sports Store
+                                </span>
+                            </p>
+
+                            <!-- <a href="{% url 'list_products' %}"
+                               class="inline-flex items-center justify-center
+                                      bg-black text-white px-6 py-3
+                                      rounded-xl font-bold text-sm
+                                      hover:bg-gray-800 transition">
+                                Add Order
+                                <span class="ml-2">→</span>
+                            </a> -->
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+        {% else %}
+
+            <!-- Empty Orders -->
+            <div class="bg-white border rounded-3xl shadow-sm
+                        text-center px-6 py-16">
+
+                <div class="w-20 h-20 mx-auto rounded-full bg-gray-100
+                            flex items-center justify-center text-3xl">
+                    🛍️
+                </div>
+
+                <h2 class="text-2xl font-black text-gray-800 mt-6">
+                    NO ORDERS YET
+                </h2>
+
+                <p class="text-gray-500 mt-2 max-w-md mx-auto">
+                    You haven't placed any orders yet.
+                    Start shopping and your orders will appear here.
+                </p>
+
+                <a href="{% url 'list_products' %}"
+                   class="inline-block mt-6 bg-black text-white
+                          px-7 py-3 rounded-xl font-bold
+                          hover:bg-gray-800 transition">
+                    START SHOPPING
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+

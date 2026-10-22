@@ -1,0 +1,233 @@
+{% load static %}
+{% load total%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-5xl mx-auto px-5 py-5">
+
+            <a href="{% url 'cart' %}"
+               class="text-2xl font-black tracking-tight">
+                YOUR<span class="text-gray-400">BRAND</span>
+            </a>
+
+        </div>
+    </nav>
+
+
+    <!-- Payment -->
+    <section class="max-w-md mx-auto px-5 py-12">
+
+        <h1 class="text-3xl font-black text-gray-900">
+            PAYMENT.
+        </h1>
+
+        <p class="text-gray-500 mt-2 mb-8">
+            Choose your preferred payment method.
+        </p>
+
+
+        <!-- Payment Card -->
+        <div class="bg-white border border-gray-200
+                    rounded-2xl p-6 shadow-sm">
+
+
+            <!-- Order Amount -->
+            <div class="text-center pb-6 border-b border-gray-200">
+
+                <p class="text-sm uppercase tracking-widest text-gray-400">
+                    Total Amount
+                </p>
+
+                <h2 class="text-4xl font-black text-gray-900 mt-2">
+                    ₹{% total cart %}
+                </h2>
+
+            </div>
+
+
+            <!-- Razorpay -->
+            <div class="pt-6">
+
+                <div class="flex items-center gap-3 mb-4">
+
+                    <div class="w-10 h-10 bg-black text-white
+                                rounded-full flex items-center
+                                justify-center">
+                        💳
+                    </div>
+
+                    <div>
+                        <h2 class="font-bold text-gray-900">
+                            Online Payment
+                        </h2>
+
+                        <p class="text-sm text-gray-500">
+                            UPI, Card, Net Banking
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="rzp-button"
+                    type="button"
+                    class="w-full bg-black text-white
+                           py-4 rounded-xl
+                           font-bold uppercase tracking-wide
+                           hover:bg-gray-800 transition">
+
+                    Pay Online
+
+                </button>
+
+            </div>
+
+
+            <!-- OR -->
+            <div class="flex items-center gap-3 my-6">
+
+                <div class="h-px bg-gray-200 flex-1"></div>
+
+                <span class="text-xs text-gray-400 font-semibold">
+                    OR
+                </span>
+
+                <div class="h-px bg-gray-200 flex-1"></div>
+
+            </div>
+
+
+            <!-- Cash On Delivery -->
+            <div>
+
+                <div class="flex items-center gap-3 mb-4">
+
+                    <div class="w-10 h-10 bg-gray-100
+                                rounded-full flex items-center
+                                justify-center">
+                        💵
+                    </div>
+
+                    <div>
+                        <h2 class="font-bold text-gray-900">
+                            Cash on Delivery
+                        </h2>
+
+                        <p class="text-sm text-gray-500">
+                            Pay when your order arrives
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <form method="POST"
+                      action="{% url 'delivery' %}">
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="w-full border-2 border-black
+                               text-black py-4 rounded-xl
+                               font-bold uppercase tracking-wide
+                               hover:bg-black hover:text-white
+                               transition">
+
+                        Cash on Delivery
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- Security -->
+            <p class="text-center text-xs text-gray-400 mt-6">
+
+                🔒 Secure and safe checkout
+
+            </p>
+
+        </div>
+
+
+        <!-- Back -->
+        <a href="{% url 'cart' %}"
+           class="block text-center mt-6
+                  text-sm font-semibold text-gray-600
+                  hover:text-black">
+
+            ← Back to Cart
+
+        </a>
+
+    </section>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+
+    var options = {
+
+        key: "{{ razorpay_key }}",
+
+        amount: "{{ amount }}",
+
+        currency: "INR",
+
+        name: "YOUR BRAND",
+
+        description: "Sports Store Order",
+
+        order_id: "{{ razorpay_order.id }}",
+
+        handler: function (response) {
+
+            window.location.href =
+                "{% url 'payment_success' %}" +
+                "?payment_id=" +
+                encodeURIComponent(response.razorpay_payment_id) +
+                "&order_id=" +
+                encodeURIComponent(response.razorpay_order_id) +
+                "&signature=" +
+                encodeURIComponent(response.razorpay_signature);
+
+        },
+
+        theme: {
+            color: "#000000"
+        }
+
+    };
+
+
+    var razorpay = new Razorpay(options);
+
+
+    document.getElementById("rzp-button").onclick = function (e) {
+
+        razorpay.open();
+
+        e.preventDefault();
+
+    };
+
+</script>

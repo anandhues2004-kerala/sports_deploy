@@ -1,0 +1,173 @@
+
+{% load static %}
+{% load multiply %}
+{% load total %}
+
+{% if cart.added_items.all %}
+
+<div class="min-h-screen bg-gray-100 py-8">
+
+    <div class="max-w-6xl mx-auto px-4">
+
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">
+            My Cart
+        </h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- CART ITEMS -->
+            <div class="lg:col-span-2">
+
+                {% for i in cart.added_items.all %}
+
+                <div class="bg-white rounded-lg shadow-sm mb-4 p-5">
+
+                    <div class="flex gap-5">
+
+                        <!-- Product Image -->
+                        {% if i.product.image %}
+                        <img
+                            src="{{ i.product.image.url }}"
+                            class="w-28 h-28 object-contain rounded"
+                        >
+                        {% endif %}
+
+                        <!-- Product Details -->
+                        <div class="flex-1">
+
+                            <h2 class="text-lg font-semibold text-gray-800">
+                                {{ i.product.name }}
+                            </h2>
+
+                            <p class="text-gray-500 text-sm mt-1">
+                                Price: ₹{{ i.product.price }}
+                            </p>
+
+                            <p class="text-gray-500 text-sm mt-1">
+                                    Quantity:{{ i.quantity }}
+                            </p>
+
+
+
+                          
+                               
+                               
+                            <!-- <p class="mt-3 text-gray-700 ">
+                                Quantity:    
+                                <input type="number"
+                                name="quantity"
+                                value="1"
+                                min="1"
+        class="w-20 rounded-lg border border-gray-300 px-3 py-2 text-center
+               focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
+                                 
+                            </p> -->
+                            <a
+                                href="{% url 'remove' i.id %}"
+                                class="inline-block mt-4 text-red-500 font-semibold text-sm hover:text-red-700"
+                            >
+                                REMOVE
+                            </a>
+
+                        </div>
+
+                        <!-- Price -->
+                        <div class="text-right">
+
+                            <p class="font-bold text-lg text-gray-800">
+                                ₹{% multiply i.product.price  i.quantity %}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- PRICE DETAILS -->
+            <div>
+
+                <div class="bg-white rounded-lg shadow-sm p-6">
+
+                    <h2 class="text-lg font-bold text-gray-700 border-b pb-4">
+                        PRICE DETAILS
+                    </h2>
+
+                    <div class="flex justify-between mt-5">
+
+                        <span class="text-gray-600">
+                            Total Products
+                        </span>
+
+                        <span class="font-semibold">
+                            {{ cart.added_items.count }}
+                        </span>
+
+                    </div>
+
+                    <div class="border-t mt-5 pt-5 flex justify-between">
+
+                        <span class="text-lg font-bold">
+                            Total Amount
+                        </span>
+
+                        <span class="text-lg font-bold">
+                            ₹{% total cart %}
+                        </span>
+
+                    </div>
+                    <form method="post" action="{% url 'payment' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="total" value="{% total cart %}">
+                    <button type="submit"
+                        class=" w-full mt-6 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-md font-bold "
+                    >
+                        checkout
+                    </button>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% else %}
+
+<!-- EMPTY CART -->
+
+<div class="min-h-screen bg-gray-100 flex items-center justify-center">
+
+    <div class="bg-white rounded-lg shadow-sm p-10 text-center">
+
+        <h1 class="text-2xl font-bold text-gray-800">
+            Your Cart is Empty
+        </h1>
+
+        <p class="text-gray-500 mt-2">
+            You haven't added any products to your cart yet.
+        </p>
+
+        <a
+            href="{% url 'list_products' %}"
+            class="inline-block mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold"
+        >
+            Continue Shopping
+        </a>
+
+    </div>
+
+</div>
+
+{% endif %}
+

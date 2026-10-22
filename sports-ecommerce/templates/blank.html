@@ -1,0 +1,126 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RedStore | Ecommerce Website Design</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800">
+
+    <!-- Menu -->
+    {% include 'menu.html' %}
+
+
+    <!-- Banner -->
+    {% block banner %}
+        {% include 'banner.html' %}
+    {% endblock banner %}
+
+
+    <!-- Main Content -->
+    {% block content %}
+    {% endblock content %}
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-black text-gray-400 ">
+
+        <div class="max-w-7xl mx-auto px-6 py-12">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+                <!-- Logo -->
+                <div>
+                    <img
+                        src="{% static 'images/logos.spng.png' %}"
+                        alt="Mystore"
+                        class="w-36 mb-5"
+                    >
+                    <p class="text-sm leading-6">
+                        Our Purpose Is To Sustainably Make the Pleasure
+                        and Benefits of Sports Accessible to the Many.
+                    </p>
+                </div>
+
+
+                <!-- Useful Links -->
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">
+                        Useful Links
+                    </h3>
+
+                    <ul class="space-y-3 text-sm">
+                        <li class="hover:text-white cursor-pointer transition">
+                        
+                        </li>
+
+                        <li class="hover:text-white cursor-pointer transition">
+                              <a href="{% url 'blog' %}">Blog</a>
+                        </li>
+
+                        <li class="hover:text-white cursor-pointer transition">
+                               <a href="{% url 'return' %}"> Return Policy</a> 
+                        </li>
+                    </ul>
+                </div>
+
+
+                <!-- Follow Us -->
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">
+                        Follow Us
+                    </h3>
+
+                    <ul class="space-y-3 text-sm">
+                        <li class="hover:text-white cursor-pointer transition">
+                            <a href="https://www.facebook.com" target="_blank">facebook</a>
+                        </li>
+
+                        <li class="hover:text-white cursor-pointer transition">
+                          <a href="https://www.twitter.com" target="_blank">Twitter</a>
+                        </li>
+
+                        <li class="hover:text-white cursor-pointer transition">
+                             <a href="https://www.instagram.com" target="_blank">Instagram</a>
+                        </li>
+
+                        <li class="hover:text-white cursor-pointer transition"> 
+                            <a href="https://www.youtube.com" target="_blank">Youtube</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>  
+
+        </div>
+
+    </footer>
+
+    {% block extra_sprips %}
+    {% endblock %}
+
+</body>
+
+</html>
+

@@ -1,0 +1,164 @@
+
+{% load static %}
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<section class="py-12 bg-gray-50">
+
+    <div class="max-w-7xl mx-auto px-5">
+
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">
+            LATEST PRODUCT
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+            {% for i in latestproduct %}
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden
+                        hover:shadow-xl hover:-translate-y-1
+                        transition duration-300">
+
+                <!-- Product Image -->
+                <a href="{% url 'product_detail' i.id %}">
+                    {% if i.image %}
+                        <img
+                            src="{{ i.image.url }}"
+                            alt="{{ i.title }}"
+                            class="w-full h-64 object-cover"
+                        >
+                    {% else %}
+                        <div class="w-full h-64 bg-gray-200
+                                    flex items-center justify-center">
+                            <span class="text-gray-500">
+                                No Image
+                            </span>
+                        </div>
+                    {% endif %}
+                </a>
+
+                <!-- Product Details -->
+                <div class="p-5">
+
+                    <h4 class="text-lg font-semibold text-gray-800">
+                        {{ i.title }}
+                    </h4>
+
+                    <p class="text-xl font-bold text-blue-600 mt-2">
+                        ₹{{ i.price }}
+                    </p>
+
+                    <a
+                        href="{% url 'product_detail' i.id %}"
+                        class="inline-block mt-4 bg-blue-500
+                               text-white px-5 py-2 rounded-lg
+                               hover:bg-blue-600 transition"
+                    >
+                        View Product
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p class="col-span-full text-center text-gray-500">
+                No latest products available.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="py-12 bg-white">
+
+    <div class="max-w-7xl mx-auto px-5">
+
+        <h2 class="text-3xl font-bold text-center text-red-600 mb-10">
+            BIG SALE
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+            {% for i in Bigsale %}
+
+            <div class="bg-white rounded-xl shadow-md
+                        border border-gray-100
+                        overflow-hidden
+                        hover:shadow-xl hover:-translate-y-1
+                        transition duration-300">
+
+                <!-- Product Image -->
+                <a href="{% url 'product_detail' i.id %}">
+
+                    {% if i.image %}
+
+                        <img
+                            src="{{ i.image.url }}"
+                            alt="{{ i.title }}"
+                            class="w-full h-64 object-cover"
+                        >
+
+                    {% else %}
+
+                        <div class="w-full h-64 bg-gray-200
+                                    flex items-center justify-center">
+
+                            <span class="text-gray-500">
+                                No Image
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+                </a>
+
+                <div class="p-5">
+
+                    <h4 class="text-lg font-semibold text-gray-800">
+                        {{ i.title }}
+                    </h4>
+
+                    <p class="text-xl font-bold text-red-600 mt-2">
+                        ₹{{ i.price }}
+                    </p>
+
+                    <a
+                        href="{% url 'product_detail' i.id %}"
+                        class="inline-block mt-4
+                               bg-red-500 text-white
+                               px-5 py-2 rounded-lg
+                               hover:bg-red-600 transition"
+                    >
+                        View Product
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p class="col-span-full text-center text-gray-500">
+                No sale products available.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+</section>
+

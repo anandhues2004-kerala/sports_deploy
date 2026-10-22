@@ -1,0 +1,120 @@
+
+{% load static %}
+{% load chuncks %}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+    <!-- Heading -->
+    <div class="flex items-center justify-between mb-8 border-b pb-4">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">
+            All Products
+        </h2>
+    </div>
+
+
+    <!-- Products -->
+    {% for product_chuncks in products|chuncks:4 %}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+        {% for i in product_chuncks %}
+
+        <!-- Product Card -->
+        <div class="group bg-white rounded-lg overflow-hidden shadow-md
+                    hover:shadow-xl transition duration-300">
+
+            <!-- Product Image -->
+            <a href="{% url 'product_detail' i.id %}"
+               class="block overflow-hidden">
+
+                {% if i.image %}
+                    <img
+                        src="{{ i.image.url }}"
+                        alt="{{ i.title }}"
+                        class="w-full h-64 object-cover
+                               group-hover:scale-105
+                               transition duration-300"
+                    >
+                {% else %}
+                    <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
+                        <span class="text-gray-500">
+                            No Image
+                        </span>
+                    </div>
+                {% endif %}
+
+            </a>
+
+
+            <!-- Product Details -->
+            <div class="p-4">
+
+                <h4 class="text-lg font-semibold text-gray-800
+                           truncate">
+                    {{ i.title }}
+                </h4>
+
+                <p class="text-red-600 font-bold text-lg mt-2">
+                    ₹{{ i.price }}
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endfor %}
+
+
+    <!-- Pagination -->
+    <div class="flex justify-center items-center gap-2 mt-10">
+
+        <!-- Previous -->
+        {% if products.has_previous %}
+
+        <a href="?page={{ products.previous_page_number }}"
+           class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md
+                  hover:bg-gray-300 transition">
+            ←
+        </a>
+
+        {% endif %}
+
+
+        <!-- Page Numbers -->
+        {% for i in products.paginator.page_range %}
+
+        <a href="?page={{ i }}"
+           class="px-4 py-2 rounded-md border
+                  {% if products.number == i %}
+                      bg-red-500 text-white border-red-500
+                  {% else %}
+                      bg-white text-gray-700 hover:bg-gray-100
+                  {% endif %}
+                  transition">
+
+            {{ i }}
+
+        </a>
+
+        {% endfor %}
+
+
+        <!-- Next -->
+        {% if products.has_next %}
+
+        <a href="?page={{ products.next_page_number }}"
+           class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md
+                  hover:bg-gray-300 transition">
+            →
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+

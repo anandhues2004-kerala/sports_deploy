@@ -1,0 +1,197 @@
+{% load static %}
+
+<nav class="bg-white shadow-md sticky top-0 z-50">
+
+    <div class="max-w-7xl mx-auto px-4 py-3">
+
+        <!-- Navbar Top -->
+        <div class="flex items-center justify-between">
+
+            <!-- Logo -->
+            <a href="{% url 'index' %}">
+                <img
+                    src="{% static 'images/logos.spng.png' %}"
+                    alt="Logo"
+                    class="w-[125px]"
+                >
+            </a>
+
+            <!-- Desktop Menu -->
+            <ul class="hidden md:flex items-center gap-8">
+
+                <li>
+                    <a href="{% url 'index' %}"
+                       class="text-gray-700 hover:text-blue-500 font-medium">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'list_products' %}"
+                       class="text-gray-700 hover:text-blue-500 font-medium">
+                        Products
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'about' %}"
+                       class="text-gray-700 hover:text-blue-500 font-medium">
+                        About
+                    </a>
+                </li>
+
+                {% if not user.is_authenticated %}
+
+                <li>
+                    <a href="{% url 'signup' %}"
+                       class="text-gray-700 hover:text-blue-500 font-medium">
+                        Account
+                    </a>
+                </li>
+
+                {% else %}
+
+                <li>
+                    <a href="{% url 'view' %}"
+                       class="text-gray-700 hover:text-blue-500 font-medium">
+                        Orders
+                    </a>
+                </li>
+
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button
+                            type="submit"
+                            class="text-gray-700 hover:text-blue-500 font-medium">
+                            Logout
+                        </button>
+                    </form>
+                </li>
+
+                <li>
+                    <a href="{% url 'cart' %}">
+                        <img
+                            src="{% static 'images/cart.png' %}"
+                            alt="Cart"
+                            class="w-[30px] h-[30px]"
+                        >
+                    </a>
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+
+            <!-- Mobile Menu Button -->
+            <button
+                id="menu-btn"
+                class="md:hidden">
+
+                <img
+                    src="{% static 'images/menu.png' %}"
+                    alt="Menu"
+                    class="w-[30px] h-[30px]"
+                >
+
+            </button>
+
+        </div>
+
+
+        <!-- Mobile Menu -->
+        <div
+            id="mobile-menu"
+            class="hidden md:hidden mt-4 border-t pt-4">
+
+            <ul class="flex flex-col gap-4">
+
+                <li>
+                    <a href="{% url 'index' %}"
+                       class="block text-gray-700 hover:text-blue-500 font-medium">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'list_products' %}"
+                       class="block text-gray-700 hover:text-blue-500 font-medium">
+                        Products
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'about' %}"
+                       class="block text-gray-700 hover:text-blue-500 font-medium">
+                        About
+                    </a>
+                </li>
+
+                {% if not user.is_authenticated %}
+
+                <li>
+                    <a href="{% url 'signup' %}"
+                       class="block text-gray-700 hover:text-blue-500 font-medium">
+                        Account
+                    </a>
+                </li>
+
+                {% else %}
+
+                <li>
+                    <a href="{% url 'view' %}"
+                       class="block text-gray-700 hover:text-blue-500 font-medium">
+                        Orders
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'cart' %}"
+                       class="flex items-center gap-2 text-gray-700 hover:text-blue-500 font-medium">
+
+                        <img
+                            src="{% static 'images/cart.png' %}"
+                            alt="Cart"
+                            class="w-[25px] h-[25px]"
+                        >
+                    </a>
+                </li>
+
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="text-gray-700 hover:text-blue-500 font-medium">
+                            Logout
+                        </button>
+
+                    </form>
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- DOM JavaScript -->
+<script>
+
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    menuBtn.addEventListener("click", function () {
+
+        mobileMenu.classList.toggle("hidden");
+
+    });
+
+</script>
